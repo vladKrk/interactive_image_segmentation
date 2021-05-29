@@ -81,7 +81,10 @@ def regionalCostObj(foregroundHistogram, flength, backgroundHistogram, blength, 
         sumProb = 1
     
     prob = foregroundProbability / sumProb
-    return -LAMBDA * math.exp(prob)
+    
+    if (prob < 0.000001):
+        return -LAMBDA * math.log(0.5)
+    return -LAMBDA * math.log(prob)
 
 def regionalCostBack(foregroundHistogram, flength, backgroundHistogram, blength, point, image):
     intensity = int(image[point // width][point % width][0])
@@ -96,7 +99,10 @@ def regionalCostBack(foregroundHistogram, flength, backgroundHistogram, blength,
         sumProb = 1
     
     prob = backgroundProbability / sumProb
-    return -LAMBDA * math.exp(prob)
+    
+    if (prob < 0.000001):
+        return -LAMBDA * math.log(0.5)
+    return -LAMBDA * math.log(prob)
 
 def createGraph(image, backgroundPixels, foregroundPixels, Lambda, Sigma):
 
